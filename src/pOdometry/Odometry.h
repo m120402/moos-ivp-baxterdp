@@ -31,6 +31,8 @@ class Odometry : public AppCastingMOOSApp
   bool  buildReport();
 
   bool m_first_reading;
+  bool m_NAV_X_first_reading;
+  bool m_NAV_Y_first_reading;
   double m_current_x;
   double m_current_y;
   double m_previous_x;
