@@ -17,8 +17,8 @@ using namespace std;
 
 Odometry::Odometry()
 {
-
-  bool m_fitst_reading = 1;
+  //Initialize Variables
+  bool m_fitst_reading = 1; //Used to correct previous x and y values for case where origin not at (0,0)
   double m_current_x = 0;
   double m_current_y = 0;
   double m_previous_x = 0;
@@ -40,6 +40,7 @@ Odometry::~Odometry()
 bool Odometry::OnNewMail(MOOSMSG_LIST &NewMail)
 {
 
+  // Allows the AppCastingMOOSApp::OnNewMail() function to remove handled messages before returning to the mail handling implemented in YourMOOSApp::OnNewMail().
   AppCastingMOOSApp::OnNewMail(NewMail);  
 
   MOOSMSG_LIST::iterator p;
@@ -95,10 +96,13 @@ bool Odometry::OnConnectToServer()
 bool Odometry::Iterate()
 {
 
+  //invoking subclass method that does certain common bookkeeping such as incrementing the counter representing the number of application iterations, and updating a variable holding the present MOOS time
   AppCastingMOOSApp::Iterate();
 
   if(m_first_reading){
-    if(m_current_x*m_current_x*m_current_y*m_current_y < 0.1){ //Both must be != 0
+    if(m_current_x*m_current_x*m_current_y*m_current_y < 0.1){ //Both must be != 0, indicating that the new message loop has updated both x and y.
+      m_previous_y = m_current_y;
+      m_previous_x = m_current_x;
       return(true);
 	}
     m_first_reading = 0;
@@ -111,7 +115,7 @@ bool Odometry::Iterate()
 
     Notify("ODOMETRY_DIST",m_total_distance);
 
-
+    //Invokes the on-demand appcasting logic. If an appcast is deemed warranted, it will invoke the buildReport() function.
     AppCastingMOOSApp::PostReport();  
 
   return(true);
