@@ -9,6 +9,10 @@
 #define PrimeFactor_HEADER
 
 #include "MOOS/libMOOS/MOOSLib.h"
+#include <list>
+#include "PrimeEntry.h"
+
+using namespace std;
 
 class PrimeFactor : public CMOOSApp
 {
@@ -23,10 +27,14 @@ class PrimeFactor : public CMOOSApp
    bool OnStartUp();
 
  protected:
-   void RegisterVariables();
-
+  void RegisterVariables();
   bool m_is_even;
   double m_value;
+  list<uint64_t> m_list;
+  list<PrimeEntry> m_list2;
+  //  int m_counter_registered;
+  //  int m_counter_calculated;
+
  private: // Configuration variables
 
  private: // State variables
