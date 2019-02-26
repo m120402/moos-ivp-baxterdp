@@ -91,7 +91,6 @@ bool PrimeFactor::Iterate()
   list<PrimeEntry>::iterator p;
   for(p=m_list2.begin(); p!=m_list2.end(); p++) {
     PrimeEntry &primeobj = *p;
-
     primeobj.factor();
 
     if(primeobj.done()) {

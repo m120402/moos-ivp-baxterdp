@@ -31,26 +31,37 @@ void PrimeEntry::factor(void)
   uint64_t number = m_current;
 
   uint64_t divisor = m_divisor;
-  for(int i = 0;(i<10) && (!m_done);i++) {
+        // cout << "Beggining" << number << "     " << divisor << endl;
+
+
+  for(int i = 0;(i<1) && (!m_done);i++) {
   // for(int i = 0;(!m_done);i++) {
     if (number == 1) {
-      //      m_factors.push_back(1);// Technically 1 is not a prime number
+           // m_factors.push_back(1);// Technically 1 is not a prime number
       m_done = 1;
     }
     else {
       int count = 0;
-      while ((number % divisor) && (number > divisor) && (count < 1000000)) {
+      int maxcount = 100000;
+      bool flag = 0;
+      while ((number % divisor) && (number > divisor) && (count < maxcount)) {
         divisor++;
         count++;      
+        // cout << number << "     " << divisor << endl;
       }
-      m_factors.push_back(divisor);
+      if(!(number % divisor)) {
+      	m_factors.push_back(divisor);	
+  		}
     }
-
-    number = (number / divisor);
+    if(!(number % divisor)) {
+    	number = (number / divisor);
+	}
   }
 
   m_divisor = divisor;
   m_current = number;
+          cout << "END" << number << "     " << divisor << endl;
+
 }
 
 string PrimeEntry::getReport() {
