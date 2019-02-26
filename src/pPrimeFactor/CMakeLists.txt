@@ -7,6 +7,8 @@ SET(SRC
   PrimeFactor.cpp
   PrimeFactor_Info.cpp
   main.cpp
+  PrimeEntry.cpp
+
 )
 
 ADD_EXECUTABLE(pPrimeFactor ${SRC})
