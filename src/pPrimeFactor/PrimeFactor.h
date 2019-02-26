@@ -28,9 +28,10 @@ class PrimeFactor : public CMOOSApp
 
  protected:
   void RegisterVariables();
-  bool m_is_even;
-  double m_value;
-  list<uint64_t> m_list;
+//  int registered() {return m_counter_registered;};
+ // bool m_is_even;
+  //double m_value;
+ // list<uint64_t> m_list;
   list<PrimeEntry> m_list2;
   //  int m_counter_registered;
   //  int m_counter_calculated;

@@ -30,7 +30,7 @@ using namespace std;
    string  getReport();
 
  protected:
-   //   uint64_t      m_start_index;
+   uint64_t      m_start_index;
    uint64_t      m_orig;
    uint64_t      m_current;
    uint64_t      m_divisor;

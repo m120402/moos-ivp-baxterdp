@@ -25,8 +25,8 @@ int Calculated = 0;
 PrimeFactor::PrimeFactor() {
 
   //Initialize Variables                                                                  
-  m_is_even = 0;
-  m_value = 0;
+ // m_is_even = 0;
+ // m_value = 0;
   //  m_counter_registered = 0;
   //  m_counter_calculated = 0;
 }
@@ -47,7 +47,7 @@ PrimeEntry::PrimeEntry(uint64_t v) {
   m_orig = v;
   m_divisor = 2;
   m_current = v;
-  m_start = GetMOOSTimeWarp(); 
+  m_start = MOOSTime(); 
   Registered +=1; //Index Global count of registered primes prior to assigning to obj
   m_received_index = Registered;
   m_done = 0;
@@ -67,14 +67,17 @@ void PrimeEntry::factor(void)
   uint64_t number = m_current;
 
   uint64_t divisor = m_divisor;
-  for(int i = 0;(i<100000) && (!m_done);i++) {
+  for(int i = 0;(i<1) && (!m_done);i++) {
+  // for(int i = 0;(!m_done);i++) {
     if (number == 1) {
       //      m_factors.push_back(1);// Technically 1 is not a prime number
       m_done = 1;
     }
     else {
+      int count = 0;
       while ((number % divisor) && (number > divisor)) {
-	divisor++;
+        divisor++;
+        count++;      
       }
       m_factors.push_back(divisor);
     }
@@ -90,7 +93,7 @@ string PrimeEntry::getReport() {
 
   Calculated +=1;
   m_calculated_index = Calculated;
-  m_time = GetMOOSTimeWarp() - m_start;
+  m_time = MOOSTime() - m_start;
 
   stringstream ss;
   ss << m_orig;
@@ -117,7 +120,6 @@ string PrimeEntry::getReport() {
   }
   factors += ss5.str();
   factors.pop_back(); //All  but last iteration
-
   string str = "\n orig=" + orig + ", recived=" + received_index + ",calculated =" + calculated_index + ",solve_time=" + time + ",primes=" + factors + ",username=david\n";
   return str;
 }
@@ -150,7 +152,7 @@ bool PrimeFactor::OnNewMail(MOOSMSG_LIST &NewMail)
     if(key=="NUM_VALUE"){
       string value = msg.GetString();      
       uint64_t a = strtoul(value.c_str(),NULL,0);
-      m_list.push_front(a);
+      //      m_list.push_front(a);
       PrimeEntry b(a);
       m_list2.push_front(b);
     }
@@ -167,7 +169,7 @@ bool PrimeFactor::OnNewMail(MOOSMSG_LIST &NewMail)
     bool   mstr  = msg.IsString();
 #endif
    }
-	
+  
    return(true);
 }
 
@@ -180,7 +182,7 @@ bool PrimeFactor::OnConnectToServer()
    // possibly look at the mission file?
    // m_MissionReader.GetConfigurationParam("Name", <string>);
    // m_Comms.Register("VARNAME", 0);
-	
+  
    RegisterVariables();
    return(true);
 }
@@ -198,6 +200,7 @@ bool PrimeFactor::Iterate()
     primeobj.factor();
 
     if(primeobj.done()) {
+      // sleep(2);
       Notify("PRIME_RESULT",primeobj.getReport());
       p = m_list2.erase(p);
     }
@@ -236,7 +239,7 @@ bool PrimeFactor::OnStartUp()
     }
   }
   
-  RegisterVariables();	
+  RegisterVariables();  
   return(true);
 }
 
@@ -257,16 +260,16 @@ void PrimeFactor::RegisterVariables()
   while(!m_list.empty()){
     int a = m_list.front();
       if(a%2==0){
-	m_is_even = 1;
-	cout << "EVEN" << endl;
-	//	factors(a);
-	m_list.pop_front();
+  m_is_even = 1;
+  cout << "EVEN" << endl;
+  //  factors(a);
+  m_list.pop_front();
       }
       else{
-	m_is_even = 0;
-	cout << "ODD" << endl;
-	//	factors(a);
-	m_list.pop_front();   
+  m_is_even = 0;
+  cout << "ODD" << endl;
+  //  factors(a);
+  m_list.pop_front();   
    }
 
   Notify("IS_EVEN",m_is_even);

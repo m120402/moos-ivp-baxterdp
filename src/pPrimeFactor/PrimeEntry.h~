@@ -35,6 +35,7 @@ using namespace std;
    uint64_t      m_current;
    uint64_t      m_divisor;
    double        m_start;
+   double        m_time;
    bool          m_done;
    unsigned int  m_received_index;
    unsigned int  m_calculated_index;
