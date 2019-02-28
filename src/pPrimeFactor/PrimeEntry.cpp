@@ -71,9 +71,9 @@ int count = 0;
 
 string PrimeEntry::getReport() { // Collect data and publish report
 
-  Calculated +=1;
+  Calculated +=1; //Increment global count
   m_calculated_index = Calculated;
-  m_time = MOOSTime() - m_start;
+  m_time = MOOSTime() - m_start; //Time to compute factors
 
   stringstream ss;
   ss << m_orig;
@@ -96,8 +96,8 @@ string PrimeEntry::getReport() { // Collect data and publish report
   for (vector<uint64_t>::iterator it = m_factors.begin() ; it != m_factors.end(); ++it) {
     ss5 << *it;
     ss5 << ":";  
-    
   }
+
   factors += ss5.str();
   factors.pop_back(); //All  but last iteration
   string str = "\n orig=" + orig + ",recived=" + received_index + ",calculated=" + calculated_index + ",solve_time=" + time + ",primes=" + factors + ",username=david\n";
