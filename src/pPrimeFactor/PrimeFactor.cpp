@@ -92,7 +92,7 @@ bool PrimeFactor::Iterate()
   for(p=m_list2.begin(); p!=m_list2.end(); p++) {
     PrimeEntry &primeobj = *p;
     primeobj.factor();
-
+cout << "ITERATE" << endl;
     if(primeobj.done()) {
       // sleep(2);
       Notify("PRIME_RESULT",primeobj.getReport());

@@ -37,6 +37,7 @@ using namespace std;
    double        m_start;
    double        m_time;
    bool          m_done;
+   bool          m_evens;
    unsigned int  m_received_index;
    unsigned int  m_calculated_index;
 
