@@ -26,9 +26,9 @@ class PrimeFactor : public CMOOSApp
    bool OnConnectToServer();
    bool OnStartUp();
 
- protected:
+ protected: //Additional Functions
   void RegisterVariables();
-  list<PrimeEntry> m_list2;
+  list<PrimeEntry> m_list2; //List of objects that get factored iteratively without blocking
 
  private: // Configuration variables
 

@@ -15,26 +15,18 @@
 
 using namespace std;
 
-
-// int Registered = 0;
-// int Calculated = 0;
-
 //---------------------------------------------------------
 // Constructor
-
 PrimeFactor::PrimeFactor() {
 }
 
 //---------------------------------------------------------
 // Destructor
-
 PrimeFactor::~PrimeFactor() {
 }
 
-
 //---------------------------------------------------------
 // Procedure: OnNewMail
-
 bool PrimeFactor::OnNewMail(MOOSMSG_LIST &NewMail)
 {
   MOOSMSG_LIST::iterator p;
@@ -42,16 +34,14 @@ bool PrimeFactor::OnNewMail(MOOSMSG_LIST &NewMail)
   for(p=NewMail.begin(); p!=NewMail.end(); p++) {
     CMOOSMsg &msg = *p;
 
+  //Every new NUM_VALUE instantiates a PrimeEntry object which is pushed to a list
     string key = msg.GetKey();
-    
     if(key=="NUM_VALUE"){
       string value = msg.GetString();      
       uint64_t a = strtoul(value.c_str(),NULL,0);
-      //      m_list.push_front(a);
       PrimeEntry b(a);
-      m_list2.push_front(b);
+      m_list2.push_front(b); 
     }
-
 
 #if 0 // Keep these around just for template
     string key   = msg.GetKey();
@@ -86,15 +76,13 @@ bool PrimeFactor::OnConnectToServer()
 // Procedure: Iterate()
 //            happens AppTick times per second
 
-bool PrimeFactor::Iterate()
+bool PrimeFactor::Iterate() //Compute factors of objects in list and publish results
 {
   list<PrimeEntry>::iterator p;
   for(p=m_list2.begin(); p!=m_list2.end(); p++) {
     PrimeEntry &primeobj = *p;
     primeobj.factor();
-cout << "ITERATE" << endl;
     if(primeobj.done()) {
-      // sleep(2);
       Notify("PRIME_RESULT",primeobj.getReport());
       p = m_list2.erase(p);
     }

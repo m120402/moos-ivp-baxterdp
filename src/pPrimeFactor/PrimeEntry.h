@@ -14,22 +14,17 @@ using namespace std;
 
  public:
 
+   friend class PrimeFactor;
    PrimeEntry(uint64_t v);
    ~PrimeEntry();
 
-   void setOriginalVal(unsigned long int v) {m_orig=v;};
-   void setReceivedIndex(unsigned int v)    {m_received_index=v;};
-   void setCalculatedIndex(unsigned int v)  {m_calculated_index=v;};
-   void setDone(bool v)                     {m_done=v;};
-   void factor(void);
-
+ protected:
+//Functions
    bool   done() {return(m_done);};
-
-   //   bool   factor(unsigned long int max_steps);
-
+   void factor(void);
    string  getReport();
 
- protected:
+//Data
    uint64_t      m_start_index;
    uint64_t      m_orig;
    uint64_t      m_current;
@@ -40,7 +35,6 @@ using namespace std;
    bool          m_evens;
    unsigned int  m_received_index;
    unsigned int  m_calculated_index;
-
    vector<uint64_t> m_factors;
  };
  #endif 

@@ -29,12 +29,7 @@ PrimeEntry::~PrimeEntry()
 
 void PrimeEntry::factor(void)
 {
-  // uint64_t number = m_current;
-
-  // uint64_t divisor = m_divisor;
-        // cout << "Beggining" << number << "     " << divisor << endl;
-
-int max = 10000;
+int max = 10000; //Only limits iterating through possible odd factors
 int count = 0;
 
 //Forces all of the 2's to be factored without counting. This will never be very many.
@@ -49,12 +44,11 @@ int count = 0;
   m_evens = 1;  	
   }
 
+//Checking for odd factors
   for (int i = m_divisor; i <= sqrt(m_current); i = i+2) 
     { 
-        // While i divides n, print i and divide n 
         while ((m_current%i == 0) && (count < max))
         { 
-            // printf("%d ", i); 
             m_factors.push_back(m_divisor);
             m_current /=i; 
             count++;
@@ -62,50 +56,20 @@ int count = 0;
         m_divisor +=2;
     } 
 
+//Redundant to check for factors past the square root
     if(m_divisor > sqrt(m_current)) {
     	m_factors.push_back(m_current);
     	m_current /=m_current; 
     }
 
+//Flag completion
 	if (m_current == 1) {
       m_done = 1;
     }
 
-
- //  for(int i = 0;(i<1) && (!m_done);i++) {
- //  // for(int i = 0;(!m_done);i++) {
- //    if (number == 1) {
- //           // m_factors.push_back(1);// Technically 1 is not a prime number
- //      m_done = 1;
- //    }
- //    else {
- //      int count = 0;
- //      int maxcount = 100000;
- //      bool flag = 0;
- //      while ((number % divisor) && (number > divisor) && (count < maxcount)) {
- //        divisor++;
- //        count++;      
- //        // cout << number << "     " << divisor << endl;
- //      }
- //      if(!(number % divisor)) {
- //      	m_factors.push_back(divisor);	
- //  		}
- //    }
- //    if(!(number % divisor)) {
- //    	number = (number / divisor);
-	// }
- //  }
-
-  // m_divisor = divisor;
-  // m_current = number;
-          cout << "END" << m_current << "     " << m_divisor << endl;
-          // for(int i=0;i<m_factors.size();i++) {
-          // 	cout<<m_factors[i];
-          // }
-
 }
 
-string PrimeEntry::getReport() {
+string PrimeEntry::getReport() { // Collect data and publish report
 
   Calculated +=1;
   m_calculated_index = Calculated;
@@ -136,6 +100,6 @@ string PrimeEntry::getReport() {
   }
   factors += ss5.str();
   factors.pop_back(); //All  but last iteration
-  string str = "\n orig=" + orig + ", recived=" + received_index + ",calculated =" + calculated_index + ",solve_time=" + time + ",primes=" + factors + ",username=david\n";
+  string str = "\n orig=" + orig + ",recived=" + received_index + ",calculated=" + calculated_index + ",solve_time=" + time + ",primes=" + factors + ",username=david\n";
   return str;
 }
