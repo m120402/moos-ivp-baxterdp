@@ -121,8 +121,13 @@ bool CommunicationAngle_baxterdp::OnConnectToServer()
 bool CommunicationAngle_baxterdp::Iterate()
 {
 
-  Notify("TEST_VAR",m_current.m_depthw);
-  Notify("TEST_STR",m_collaborator_NAV_DEPTH);
+  m_current.updateOutput();
+  m_current.findAngle();
+  m_current.transmissionLoss();
+  Notify("TEST_VAR",m_current.m_Loss);
+  Notify("TEST_STR",m_current.makeReport());
+  Notify("ACOUSTIC_PATH",m_current.m_AngleOut);
+  Notify("CONNECTIVITY_LOCATION",m_current.m_LocationOut);
   return(true);
 }
 
