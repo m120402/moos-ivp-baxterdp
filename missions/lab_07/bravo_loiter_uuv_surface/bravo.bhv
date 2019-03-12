@@ -7,6 +7,7 @@ initialize   RETURN = false
 initialize   LOT_REG = east
 initialize   gps = false
 initialize   come_up = false
+initialize   coming_up_now = false
   
 
 //----------------------------------------------
@@ -63,7 +64,8 @@ Behavior = BHV_ConstantDepth
    condition = RETURN = false
    condition = DEPLOY = true
    condition = LOT_REG = east
-      condition = gps = false
+   condition = gps = false
+   condition = come_up = false
 
    updates      = CONST_DEP_UPDATES  // example
 
@@ -87,7 +89,7 @@ Behavior = BHV_Loiter
   condition = RETURN = false
   condition = DEPLOY = true
   condition = LOT_REG = west
-    condition = gps = false
+  condition = gps = false
 
   endflag   = LOT_REG = east
    updates      = LOITER_UPDATES        // example
@@ -132,6 +134,8 @@ Behavior = BHV_ConstantDepth
    condition = DEPLOY = true
    condition = LOT_REG = west
    condition = gps = false
+   condition = come_up = false
+
 
    updates      = CONST_DEP_UPDATES  // example
 
@@ -188,7 +192,7 @@ Behavior = BHV_ConstantDepth
    // ---------------------------
    name         = const_dep_gps   // example
    pwt          = 100                // default
-   condition = (come_up = true) or (gps = true)
+   condition = (come_up = true) //or (gps = true)
    updates      = CONST_DEP_UPDATES  // example
 
    // Parameters specific to this behavior
@@ -208,6 +212,8 @@ Behavior = BHV_Timer
    // ---------------------------
    name         = bhv_timer_lot            // default
    condition    = DEPLOY = true    // example
+   condition    = gps = false
+   condition    = come_up = false
    duration     = 200                  // example
    idleflag     = WAITING=false        // example
    runflag      = DEPLOY = true         // example
@@ -225,13 +231,13 @@ Behavior = BHV_Timer
  {
    // General Behavior Parameters
    // ---------------------------
-   name         = bhv_timer_gps            // default
-   condition    = gps = true    // example
-   //condition    = NAV_DEPTH = 0
-   duration     = 60                  // example
+   name         = bhv_timer_come_up            // default
+   condition    = come_up = true    // example
+   duration     = no-time-limit            // default
    idleflag     = WAITING=false        // example
+   idleflag     = coming_up_now = false
    runflag      = DEPLOY = true         // example
-   endflag      = gps = false          // example
+   runflag      = coming_up_now = true
    duration_idle_decay = false
    perpetual = true
 
@@ -244,18 +250,20 @@ Behavior = BHV_Timer
  }
 
 
-Behavior = BHV_Timer
+ Behavior = BHV_Timer
  {
    // General Behavior Parameters
    // ---------------------------
-   name         = bhv_timer_come_up            // default
-   condition    = come_up = true    // example
+   name         = bhv_timer_gps            // default
+   condition    = (gps = true) or (coming_up_now = true)    // example
+   condition    = NAV_DEPTH < 0.5
    duration     = 60                  // example
-   duration_status = NAV_DEPTH = 0
    idleflag     = WAITING=false        // example
    runflag      = DEPLOY = true         // example
-   endflag      = gps = true          // example
+   runflag      = gps = true
+   endflag      = gps = false          // example
    endflag      = come_up = false          // example
+
    duration_idle_decay = false
    perpetual = true
 
@@ -266,3 +274,5 @@ Behavior = BHV_Timer
    // ------------------------------------
    // None
  }
+
+
