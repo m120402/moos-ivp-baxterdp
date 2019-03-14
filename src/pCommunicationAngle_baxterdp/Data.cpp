@@ -82,11 +82,11 @@ else {
 
 void Data::transmissionLoss()
 {
-// m_Loss = 20*log10(m_Arc/2);
-double j = pow(m_Arc,2);
-double p = sqrt(abs((m_c0+m_g*m_deptha)/((m_c0+m_g*m_depth0)*j)));
-double p1 = 1;
-m_Loss = -20*log10(p/p1);
+m_Loss = 20*log10(m_Arc/2);
+// double j = pow(m_Arc,2);
+// double p = sqrt(abs((m_c0+m_g*m_deptha)/((m_c0+m_g*m_depth0)*j)));
+// double p1 = 1;
+// m_Loss = -20*log10(p/p1);
 }
 
 
