@@ -18,7 +18,7 @@ ADD_SUBDIRECTORY(lib_behaviors-test)
 ADD_SUBDIRECTORY(pXRelayTest)
 ADD_SUBDIRECTORY(pExampleApp)
 ADD_SUBDIRECTORY(pPrimeFactor)
-#ADD_SUBDIRECTORY(pFoobar)
+ADD_SUBDIRECTORY(pPointAssign)
 ADD_SUBDIRECTORY(pOdometry)
 ADD_SUBDIRECTORY(pCommunicationAngle_baxterdp)
 ##############################################################################
