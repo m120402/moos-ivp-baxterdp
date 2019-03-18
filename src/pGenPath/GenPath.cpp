@@ -14,6 +14,7 @@
 #include<sstream>
 #include<unistd.h>
 #include"XYPoint.h"
+#include"XYSegList.h"
 
 using namespace std;
 
@@ -56,8 +57,8 @@ bool GenPath::OnNewMail(MOOSMSG_LIST &NewMail)
      if(key == "FOO") 
        cout << "great!";
 
-     else if(key != "APPCAST_REQ") // handled by AppCastingMOOSApp
-       reportRunWarning("Unhandled Mail: " + key);
+   //   else if(key != "APPCAST_REQ") // handled by AppCastingMOOSApp
+   //     reportRunWarning("Unhandled Mail: " + key);
    }
 	
    return(true);
@@ -80,6 +81,20 @@ bool GenPath::Iterate()
 {
   AppCastingMOOSApp::Iterate();
   // Do your thing here!
+
+
+    // Notify("ASSIGN","OK");
+    // Notify("LOITER_POS1","x=125,y=-50");
+    // Notify("LOITER_POS2","x=125,y=-50");
+  XYSegList my_seglist;
+  my_seglist.add_vertex(43,99);
+
+  string update_str = "points = ";
+  update_str       += my_seglist.get_spec();
+  Notify("LOITER_UPDATE",update_str);
+
+
+
   AppCastingMOOSApp::PostReport();
   return(true);
 }
@@ -128,6 +143,9 @@ void GenPath::registerVariables()
 {
   AppCastingMOOSApp::RegisterVariables();
   Register("VISIT_POINT", 0);
+  Register("LOITER_UPDATE",0);
+  Notify("PAUSE_TIME","false");
+
 }
 
 

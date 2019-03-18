@@ -274,7 +274,7 @@ void PointAssign::registerVariables()
   Register("VISIT_POINT", 0);
   Register("NODE_REPORT", 0);
 
-  Notify("PAUSE_TIME","false");
+  // Notify("PAUSE_TIME","false");
 
 }
 
