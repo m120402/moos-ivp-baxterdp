@@ -116,8 +116,6 @@ bool PointAssign::OnNewMail(MOOSMSG_LIST &NewMail)
     string key = msg.GetKey();
     if(key=="VISIT_POINT"){
       string value = msg.GetString();      
-      // uint64_t a = strtoul(value.c_str(),NULL,0);
-      // PointParse b(a);
       PointParse b(value);
       m_list.push_front(b);
       // Notify("GOT_IT",b.getReport());

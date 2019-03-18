@@ -29,6 +29,11 @@ class GenPath : public AppCastingMOOSApp
 
  protected:
    void registerVariables();
+   void sendPoints();
+   list<CompPath> m_list; //List of objects that are then parsed
+   bool        m_got_all_points = false;
+   bool        m_sent_all_points = false;
+
 
  private: // Configuration variables
 

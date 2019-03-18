@@ -32,6 +32,65 @@ GenPath::~GenPath()
 {
 }
 
+void GenPath::sendPoints()
+{
+  double x,y;
+  string label,color;
+
+  XYSegList my_seglist;
+    my_seglist.set_param("vertex_size", "3");
+    // string update_str = "points = ";
+      string update_str = "points = ";
+
+
+  list<CompPath>::iterator l;
+  for(l=m_list.begin(); l!=m_list.end(); l++) {
+    CompPath &lobj = *l;
+    int tmp_id = atoi(lobj.m_id.c_str());
+
+    x = atof(lobj.m_x.c_str());
+    y = atof(lobj.m_y.c_str());
+    
+    XYPoint point(x,y);
+    point.set_param("vertex_size", "3");
+    point.set_label(lobj.m_id);
+
+    // my_seglist.set_label(lobj.m_id);
+
+    // Notify("ASSIGN","OK");
+
+    if((lobj.m_id=="firstpoint") ||(lobj.m_id=="lastpoint")){
+
+    }
+
+    else {
+      // my_seglist.set_color("vertex","yellow");
+      
+      // my_seglist.add_vertex(point);
+      my_seglist.insert_vertex(point.x(),point.y());
+
+
+      // Notify(m_out_name2,"x="+lobj.m_x+", y="+lobj.m_y+", id="+lobj.m_id);
+    }
+
+  }
+
+  update_str       += my_seglist.get_spec();
+
+  Notify("LOITER_UPDATE",update_str);
+
+  m_sent_all_points = true;
+
+
+  // XYSegList my_seglist;
+  // my_seglist.add_vertex(43,99);
+
+  // string update_str = "points = ";
+  // update_str       += my_seglist.get_spec();
+  // Notify("LOITER_UPDATE",update_str);
+
+}
+
 //---------------------------------------------------------
 // Procedure: OnNewMail
 
@@ -42,7 +101,20 @@ bool GenPath::OnNewMail(MOOSMSG_LIST &NewMail)
   MOOSMSG_LIST::iterator p;
   for(p=NewMail.begin(); p!=NewMail.end(); p++) {
     CMOOSMsg &msg = *p;
-    string key    = msg.GetKey();
+
+  //Every new VISIT_POINT instantiates a CompPath object which is pushed to a list
+    string key = msg.GetKey();
+    if(key=="VISIT_POINT"){
+      string value = msg.GetString();      
+      CompPath b(value);
+      m_list.push_front(b);
+      // Notify("GOT_IT",b.getReport());
+    }
+
+
+
+
+
 
 #if 0 // Keep these around just for template
     string comm  = msg.GetCommunity();
@@ -86,12 +158,24 @@ bool GenPath::Iterate()
     // Notify("ASSIGN","OK");
     // Notify("LOITER_POS1","x=125,y=-50");
     // Notify("LOITER_POS2","x=125,y=-50");
-  XYSegList my_seglist;
-  my_seglist.add_vertex(43,99);
 
-  string update_str = "points = ";
-  update_str       += my_seglist.get_spec();
-  Notify("LOITER_UPDATE",update_str);
+    if(!m_got_all_points) {
+      list<CompPath>::iterator p;
+      for(p=m_list.begin(); p!=m_list.end(); p++) {
+        CompPath &pointobj = *p;
+
+        if((pointobj.m_id=="lastpoint")) {
+          m_got_all_points = true;
+        }
+      }
+    }
+
+
+
+    if((m_got_all_points) && (!m_sent_all_points)) {
+      sendPoints();
+    }
+
 
 
 
