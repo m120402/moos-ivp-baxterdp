@@ -100,6 +100,6 @@ string PrimeEntry::getReport() { // Collect data and publish report
 
   factors += ss5.str();
   factors.pop_back(); //All  but last iteration
-  string str = "\n orig=" + orig + ",recived=" + received_index + ",calculated=" + calculated_index + ",solve_time=" + time + ",primes=" + factors + ",username=david\n";
+  string str = "orig=" + orig + ",recived=" + received_index + ",calculated=" + calculated_index + ",solve_time=" + time + ",primes=" + factors + ",username=david\n";
   return str;
 }

@@ -23,6 +23,8 @@ using namespace std;
  protected:
 //Functions
    string  getReport();
+   // struct Comparator();
+
 
 
 //Data

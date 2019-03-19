@@ -14,6 +14,7 @@
 #include<sstream>
 #include<unistd.h>
 #include"XYPoint.h"
+#include <cctype>
 
 using namespace std;
 
@@ -22,6 +23,9 @@ using namespace std;
 
 PointAssign::PointAssign()
 {
+
+m_even = true;
+
 
 }
 
@@ -40,11 +44,14 @@ void PointAssign::sendPoints()
   if(m_even) {
     evenSort();
   }
-  // else {
-  //   regionSort();
-  // }
+  else {
+    regionSort();
+  }
 
 }
+
+
+
 
 void PointAssign::evenSort() {
 
@@ -64,6 +71,7 @@ void PointAssign::evenSort() {
     XYPoint point(x,y);
     point.set_param("vertex_size", "3");
     point.set_label(lobj.m_id);
+
 
     // Notify("ASSIGN","OK");
 
@@ -98,6 +106,36 @@ void PointAssign::evenSort() {
 void PointAssign::regionSort() {
 
 
+  double x,y;
+  string label,color;
+
+
+  list<PointParse>::iterator l;
+  for(l=m_list.begin(); l!=m_list.end(); l++) {
+    PointParse &lobj = *l;
+
+
+    int tmp_id = atoi(lobj.m_id.c_str());
+
+    x = atof(lobj.m_x.c_str());
+    y = atof(lobj.m_y.c_str());
+    XYPoint point(x,y);
+    point.set_param("vertex_size", "3");
+    point.set_label(lobj.m_id);
+
+
+    if((lobj.m_id=="firstpoint") ||(lobj.m_id=="lastpoint")){
+
+    }
+
+    else {
+
+    }
+
+  }
+
+
+
 }
 
 
@@ -118,7 +156,6 @@ bool PointAssign::OnNewMail(MOOSMSG_LIST &NewMail)
       string value = msg.GetString();      
       PointParse b(value);
       m_list.push_front(b);
-      // Notify("GOT_IT",b.getReport());
       
     }
 
@@ -136,6 +173,12 @@ bool PointAssign::OnNewMail(MOOSMSG_LIST &NewMail)
         m_out_name2 = "VISIT_POINT_"+m_name2;
       }
     }
+
+    // if(key=="NODE_REPORT"){
+    //   string value = msg.GetString();   
+    //   Notify("GOT_IT",value);
+    // }
+
 
 
 

@@ -29,5 +29,6 @@ using namespace std;
    string      m_x;
    string      m_y;
    string      m_id;
+   string	   m_start;
  };
  #endif 

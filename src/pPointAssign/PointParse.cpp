@@ -35,6 +35,21 @@ PointParse::~PointParse()
 {
 }
 
+// struct PointParse::Comparator() {
+
+//   bool operator()(const PointParse& first, const PointParse& second) const {
+//     double x1 = atof(first.m_x.c_str());
+//     double x2 = atof(second.m_x.c_str());
+
+//     // Return true if first should go before second
+
+//     if(x1<x2) {
+//       return true;
+//     }
+//     return false;
+//   }
+
+// }
 
 
 string PointParse::getReport() { // Collect data and publish report

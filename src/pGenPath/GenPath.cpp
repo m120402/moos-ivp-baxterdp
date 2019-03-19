@@ -111,6 +111,10 @@ bool GenPath::OnNewMail(MOOSMSG_LIST &NewMail)
       // Notify("GOT_IT",b.getReport());
     }
 
+    if(key=="NODE_REPORT_LOCAL"){
+      string value = msg.GetString();   
+      Notify("GOT_IT",value);
+    }
 
 
 
@@ -228,6 +232,7 @@ void GenPath::registerVariables()
   AppCastingMOOSApp::RegisterVariables();
   Register("VISIT_POINT", 0);
   Register("LOITER_UPDATE",0);
+  Register("NODE_REPORT_LOCAL",0);
   Notify("PAUSE_TIME","false");
 
 }
