@@ -23,7 +23,10 @@ using namespace std;
 
 PointAssign::PointAssign()
 {
-
+m_name1 = "1";
+m_name2 = "2";
+m_got_all_points = false;
+m_sent_all_points = false;
 m_even = true;
 
 
@@ -40,13 +43,15 @@ PointAssign::~PointAssign()
 void PointAssign::sendPoints()
 {
 
-
-  if(m_even) {
-    evenSort();
-  }
-  else {
     regionSort();
-  }
+
+
+  // if(m_even) {
+  //   evenSort();
+  // }
+  // else {
+  //   regionSort();
+  // }
 
 }
 
@@ -105,35 +110,79 @@ void PointAssign::evenSort() {
 
 void PointAssign::regionSort() {
 
+  m_list.sort();
+  int tmp_id = 1;
 
-  double x,y;
+string LOOK;
+string ID;
+  list<PointParse>::iterator l2;
+  for(l2=m_list.begin(); l2!=m_list.end(); l2++) {
+    PointParse &lobj = *l2;
+
+    LOOK += lobj.m_x +"  ";
+    lobj.set_m_id(to_string(tmp_id));
+
+    ID +=lobj.m_id;
+    tmp_id ++;
+
+  }
+
+  reportEvent("Good msg received: " + LOOK);
+  reportEvent("ID: " + ID);
+
+  
+
+
+
+
+  double x,y,id_int;
   string label,color;
+  double size = m_list.size()/2;
+  // Notify("ASSIGN",size);
 
+  Notify(m_out_name1,"firstpoint");
+  Notify(m_out_name2,"firstpoint");
 
   list<PointParse>::iterator l;
   for(l=m_list.begin(); l!=m_list.end(); l++) {
     PointParse &lobj = *l;
-
-
-    int tmp_id = atoi(lobj.m_id.c_str());
+    // int tmp_id = atoi(lobj.m_id.c_str());
 
     x = atof(lobj.m_x.c_str());
     y = atof(lobj.m_y.c_str());
+    // id_int = atof(lobj.m_id.c_str());
     XYPoint point(x,y);
     point.set_param("vertex_size", "3");
     point.set_label(lobj.m_id);
+
+  reportEvent("ID2: " + lobj.m_id);
 
 
     if((lobj.m_id=="firstpoint") ||(lobj.m_id=="lastpoint")){
 
     }
+    else if(atof(lobj.m_id.c_str())<size) {
 
+
+      point.set_color("vertex","red");
+      string spec = point.get_spec();
+      Notify("VIEW_POINT",spec);
+      Notify(m_out_name1,"x="+lobj.m_x+", y="+lobj.m_y+", id="+lobj.m_id);
+    }
     else {
+      point.set_color("vertex","yellow");
+      string spec = point.get_spec();
+      Notify("VIEW_POINT",spec);
 
+      Notify(m_out_name2,"x="+lobj.m_x+", y="+lobj.m_y+", id="+lobj.m_id);
     }
 
   }
 
+ Notify(m_out_name1,"lastpoint");
+ Notify(m_out_name2,"lastpoint");
+
+  m_sent_all_points = true;
 
 
 }

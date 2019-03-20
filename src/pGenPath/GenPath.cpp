@@ -23,6 +23,8 @@ using namespace std;
 
 GenPath::GenPath()
 {
+m_got_all_points = false;
+m_sent_all_points = false;
 }
 
 //---------------------------------------------------------
@@ -112,8 +114,21 @@ bool GenPath::OnNewMail(MOOSMSG_LIST &NewMail)
     }
 
     if(key=="NODE_REPORT_LOCAL"){
-      string value = msg.GetString();   
-      Notify("GOT_IT",value);
+      string value = msg.GetString();  
+      string x_str,y_str,ans; 
+      double x,y;
+
+      x_str = tokStringParse(value, "X", ',', '=');
+      y_str = tokStringParse(value, "Y", ',', '=');
+      x = atof(x_str.c_str());
+      y = atof(y_str.c_str());
+    // id_int = atof(lobj.m_id.c_str());
+      XYPoint point(x,y);
+
+      // ans = "x =" + x +", y ="+y;
+      // Notify("GOT_IT",ans);
+      string spec = point.get_spec();
+      Notify("GOT_IT",spec);
     }
 
 
@@ -159,9 +174,6 @@ bool GenPath::Iterate()
   // Do your thing here!
 
 
-    // Notify("ASSIGN","OK");
-    // Notify("LOITER_POS1","x=125,y=-50");
-    // Notify("LOITER_POS2","x=125,y=-50");
 
     if(!m_got_all_points) {
       list<CompPath>::iterator p;

@@ -37,12 +37,12 @@ class PointAssign : public AppCastingMOOSApp
   list<PointParse> m_list; //List of objects that are then parsed
   list<string> m_list1; //List of VISIT_POINTs
   list<string> m_list2; //List of VISIT_POINTs
-  string      m_name1 = "1";
-  string      m_name2 = "2";
+  string      m_name1;// = "1";
+  string      m_name2;// = "2";
   string      m_out_name1;
   string      m_out_name2;
-  bool        m_got_all_points = false;
-  bool        m_sent_all_points = false;
+  bool        m_got_all_points;// = false;
+  bool        m_sent_all_points;// = false;
   bool		  m_even;// = true;
 
 

@@ -13,6 +13,8 @@ using namespace std;
  {
 
  public:
+    bool operator< (const PointParse&) const;
+
 
    friend class PointAssign;
    // PointParse(uint64_t v);
@@ -23,7 +25,7 @@ using namespace std;
  protected:
 //Functions
    string  getReport();
-   // struct Comparator();
+   void set_m_id(string);
 
 
 
