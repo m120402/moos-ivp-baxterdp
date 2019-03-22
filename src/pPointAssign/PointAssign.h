@@ -40,7 +40,9 @@ class PointAssign : public AppCastingMOOSApp
   string      m_name1;// = "1";
   string      m_name2;// = "2";
   string      m_out_name1;
+  string      m_out_x1;
   string      m_out_name2;
+  string      m_out_x2;
   bool        m_got_all_points;// = false;
   bool        m_sent_all_points;// = false;
   bool		  m_even;// = true;

@@ -127,18 +127,13 @@ string ID;
 
   }
 
-  reportEvent("Good msg received: " + LOOK);
-  reportEvent("ID: " + ID);
-
-  
+  // reportEvent("Good msg received: " + LOOK);
+  // reportEvent("ID: " + ID);
 
 
-
-
-  double x,y,id_int;
+  double x,y;
   string label,color;
   double size = m_list.size()/2;
-  // Notify("ASSIGN",size);
 
   Notify(m_out_name1,"firstpoint");
   Notify(m_out_name2,"firstpoint");
@@ -146,24 +141,21 @@ string ID;
   list<PointParse>::iterator l;
   for(l=m_list.begin(); l!=m_list.end(); l++) {
     PointParse &lobj = *l;
-    // int tmp_id = atoi(lobj.m_id.c_str());
 
     x = atof(lobj.m_x.c_str());
     y = atof(lobj.m_y.c_str());
-    // id_int = atof(lobj.m_id.c_str());
+
     XYPoint point(x,y);
     point.set_param("vertex_size", "3");
     point.set_label(lobj.m_id);
 
-  reportEvent("ID2: " + lobj.m_id);
+  // reportEvent("ID2: " + lobj.m_id);
 
 
     if((lobj.m_id=="firstpoint") ||(lobj.m_id=="lastpoint")){
 
     }
     else if(atof(lobj.m_id.c_str())<size) {
-
-
       point.set_color("vertex","red");
       string spec = point.get_spec();
       Notify("VIEW_POINT",spec);
@@ -216,10 +208,24 @@ bool PointAssign::OnNewMail(MOOSMSG_LIST &NewMail)
       if(m_name1 == "1") {
         m_name1 = name;
         m_out_name1 = "VISIT_POINT_"+m_name1;
+        m_out_x1 = tokStringParse(value, "X",',','=');
+
       }
       else if((m_name2 == "2") && (name!=m_name1)) {
         m_name2 = name;
         m_out_name2 = "VISIT_POINT_"+m_name2;
+        m_out_x2 = tokStringParse(value, "X",',','=');
+
+        if(atof(m_out_x2.c_str()) < atof(m_out_x1.c_str())) {
+
+          m_out_x2 = m_out_x1;
+          m_out_x1 = tokStringParse(value, "X",',','=');
+
+          m_out_name2 = m_out_name1;
+          m_out_name1= "VISIT_POINT_"+m_name2;
+        }
+
+        reportEvent("X_POS: " + tokStringParse(value, "X",',','='));
       }
     }
 
